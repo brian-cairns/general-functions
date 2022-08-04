@@ -1,7 +1,8 @@
 //Finding a MongoDb record with a query string pass
-function createSearchQuery(form) {
-    const params = new URLSearchParams(window.location.search)
-    let id = params.id
+const params = new URLSearchParams(window.location.search)
+let id = params.id
+
+function createSearchQuery(form, id) {
      console.log(id, form)
     //Show animation
     document.getElementById('reportBody').style.display = "none";
