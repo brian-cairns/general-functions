@@ -8,7 +8,7 @@ function createSearchQuery(form, id) {
     document.getElementById('reportBody').style.display = "none";
 
     //fetch data
-    const url = `https://pffm.azurewebsites.net/getForms/?form=${form}&id=${id}`
+    const url = `https://pffm.azurewebsites.net/getForms/?form=${form}&key=${id}`
     const header = {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/x-www-form-urlencoded"
