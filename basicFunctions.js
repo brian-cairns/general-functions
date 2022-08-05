@@ -1,6 +1,4 @@
-//Finding a MongoDb record with a query string pass
-const params = new URLSearchParams(window.location.search)
-let id = params.get(id)
+//creating a query string
 
 function createSearchQuery(form, id) {
      console.log(id, form)
