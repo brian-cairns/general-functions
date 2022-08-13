@@ -1,5 +1,3 @@
-const domtoimage = require('dom-to-image');
-
 //creating a query string
 
 function createSearchQuery(form, id) {
@@ -26,11 +24,12 @@ function createSearchQuery(form, id) {
 
 //send notification
 
-function notify(to, message, type) {
+function notify(to, message, type, priority) {
     toSend = {
         'to': to,
         'message': message,
-        'type': type
+        'type': type,
+        'priority': priority 
     }
 
     const url = `https://pffm.azurewebsites.net/notices`
@@ -48,6 +47,50 @@ function notify(to, message, type) {
         .catch(console.error)
     
 }
+
+async function getNotifications(user) {
+    const url = `https://pffm.azurewebsites.net/notices`
+    const header = {
+        "Access-Control-Allow-Origin": "*"
+    }
+    let uri = url+"?"+user
+    
+    fetch(uri, {
+        method: "GET",
+        headers: header
+    })
+        .then(result => result.json())
+        .then((data) => {
+            return sort(notices)
+        })
+        .catch(console.error)
+    
+}
+
+async function sort(notices) {
+    let urgent = [];
+    let family = [];
+    let client = [];
+    let staff = [];
+    let admin = [];
+    notices.forEach((notice) => {
+        if (notice.priority == 'high') { urgent.push(notice) }
+        if (notice.type == 'family') { family.push(notice) }
+        if (notice.type == 'client') { client.push(notice) }
+        if (notice.type == 'staff') { staff.push(notice) }
+        else {admin.push(notice)}
+    })
+    let sortedNotices = {
+        'urgent': urgent,
+        'family': family,
+        'client': client,
+        'staff': staff,
+        'admin' : admin
+    }
+    return sortedNotices
+}
+
+
 
 
 
