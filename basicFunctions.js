@@ -1,3 +1,5 @@
+const domtoimage = require('dom-to-image');
+
 //creating a query string
 
 function createSearchQuery(form, id) {
@@ -20,3 +22,32 @@ function createSearchQuery(form, id) {
         .then(data => populatePage(data))
         .catch(console.error)
 }
+
+
+//send notification
+
+function notify(to, message, type) {
+    toSend = {
+        'to': to,
+        'message': message,
+        'type': type
+    }
+
+    const url = `https://pffm.azurewebsites.net/notices`
+    const header = {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json"
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: header,
+        body: JSON.stringify(toSend)
+    })
+        .then(() => console.log(`message to ${to} was sent`))
+        .catch(console.error)
+    
+}
+
+
+
